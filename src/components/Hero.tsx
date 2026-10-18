@@ -8,7 +8,7 @@ export function Hero() {
       aria-labelledby="portfolio-name"
       className="hero flex items-center justify-center py-8"
     >
-      <div className="hero-composition relative w-[330px]">
+      <div className="hero-composition relative">
         <div className="hero-flag absolute left-1/2 -translate-x-1/2">
           <KoreanFlag />
         </div>
@@ -36,14 +36,14 @@ export function Hero() {
             />
           </div>
         </div>
-        <div className="row-start-5 flex flex-col gap-2">
+        <div className="hero-identity row-start-5 flex flex-col gap-2">
           <div>
-            <p lang="ko" className="font-korean text-[20px] leading-5">
+            <p lang="ko" className="hero-korean-name font-korean text-[20px] leading-5">
               {portfolio.koreanName}
             </p>
             <h1
               id="portfolio-name"
-              className="text-[48px] leading-12 tracking-[-1.2px]"
+              className="hero-name text-[48px] leading-12 tracking-[-1.2px]"
             >
               {portfolio.name}
             </h1>

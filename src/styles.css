@@ -54,6 +54,13 @@
     font-synthesis: none;
   }
 
+  @media (width < 40rem) {
+    body {
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
+
   ::selection {
     background: #e9e2db;
     color: var(--color-ink);
@@ -64,17 +71,61 @@
    Keep 32px above the 45px flag and at least a 32px gap on short windows. */
 .hero {
   --hero-flag-gap: clamp(32px, calc(50dvh - 390px), 64px);
+  position: relative;
   height: 100dvh;
 }
 
 .hero-composition {
   display: grid;
+  width: min(330px, calc(100vw - 32px));
   height: min(626px, calc(100dvh - 218px));
   grid-template-rows: 37px 20px minmax(0, 1fr) 20px 109px;
 }
 
 .hero-flag {
   bottom: calc(100% + var(--hero-flag-gap));
+}
+
+@media (width < 40rem), (height <= 600px) {
+  .hero {
+    /* Reserve 136px for links, name and gaps, plus 93px for the flag
+       and clearance: 16px top + 45px flag + 16px gap + 16px bottom. */
+    --hero-portrait-height: max(
+      0px,
+      min(440px, calc((100vw - 32px) * 4 / 3), calc(100dvh - 229px))
+    );
+    --hero-composition-height: calc(var(--hero-portrait-height) + 136px);
+    --hero-composition-top: max(77px, calc((100dvh - var(--hero-composition-height)) / 2));
+    /* Split the space above the links equally around the 45px flag. */
+    --hero-flag-gap: calc((var(--hero-composition-top) - 45px) / 2);
+    padding-block: 16px;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .hero-composition {
+    position: absolute;
+    /* Keep the core centered unless its flag would breach the top clearance. */
+    top: var(--hero-composition-top);
+    left: 50%;
+    translate: -50% 0;
+    height: var(--hero-composition-height);
+    grid-template-rows: 24px 12px var(--hero-portrait-height) 12px 88px;
+  }
+
+  .hero-identity {
+    gap: 4px;
+  }
+
+  .hero-korean-name {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .hero-name {
+    font-size: 40px;
+    line-height: 40px;
+  }
 }
 
 /* Apply to an image's wrapper: images cannot display ::after overlays.

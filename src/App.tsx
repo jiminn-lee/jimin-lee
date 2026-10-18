@@ -11,9 +11,9 @@ export function App() {
     <>
       <main>
         <Hero />
-        <div className="mx-auto flex w-[547px] flex-col gap-25 pb-25">
+        <div className="mx-auto flex w-full max-w-[362px] flex-col gap-24 px-4 pb-48 sm:max-w-[547px] sm:px-0 pt-0">
           <InformationSection id="about" {...portfolio.about}>
-            <div className="space-y-[31px]">
+            <div className="space-y-7 sm:space-y-[31px]">
               {portfolio.about.paragraphs.map((paragraph, index) => (
                 <p key={index}>
                   <InlineBold text={paragraph} />
@@ -22,7 +22,7 @@ export function App() {
             </div>
           </InformationSection>
           <InformationSection id="experience" {...portfolio.experience}>
-            <ul className="space-y-[31px]">
+            <ul className="space-y-7 sm:space-y-[31px]">
               {portfolio.experience.entries.map((entry) => (
                 <li key={entry.title}>
                   <h3 className="font-bold">{entry.title}</h3>
@@ -32,7 +32,7 @@ export function App() {
             </ul>
           </InformationSection>
           <InformationSection id="projects" {...portfolio.projects}>
-            <ul className="space-y-[31px]">
+            <ul className="space-y-7 sm:space-y-[31px]">
               {portfolio.projects.entries.map((entry) => (
                 <li key={entry.title}>
                   <h3 className="font-bold">{entry.title}</h3>

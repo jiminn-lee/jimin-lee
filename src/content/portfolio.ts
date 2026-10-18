@@ -27,6 +27,8 @@ interface ImageAsset {
 /** Choose a square cell or a full-width row for each design image. */
 interface DesignImage extends ImageAsset {
   isSquare: boolean;
+  /** Optional destination; omit or leave empty for an unlinked image. */
+  href?: string;
 }
 
 interface Album extends ImageAsset {
@@ -119,11 +121,13 @@ export const portfolio: PortfolioContent = {
   design: {
     title: "Design",
     koreanTitle: "디자인",
+    // Add href to any image to make it a link that opens in a new tab.
     images: [
       {
         src: alby,
         alt: "Mobile app mockup of music rating app alby,",
         isSquare: false,
+        href: "https://www.figma.com/design/hGWV2w6QrmB0fsvBhw1bVI/alby-mockup?node-id=1-2&t=oci07lDZ6phP6rKk-1",
       },
       {
         src: yearbookSpread,
@@ -134,21 +138,25 @@ export const portfolio: PortfolioContent = {
         src: winterFormal,
         alt: "Winter formal event poster with a moonlit blue and purple design.",
         isSquare: true,
+        href: "https://www.instagram.com/p/DCxoOEGSV9l/?img_index=1",
       },
       {
         src: homecoming,
         alt: "City of Stars homecoming poster with a glowing moon and purple skyline.",
         isSquare: true,
+        href: "https://www.instagram.com/p/DAExlAmyyK2/?img_index=1",
       },
       {
         src: spiritWeek,
         alt: "Red and black spirit week poster listing themed school days.",
         isSquare: true,
+        href: "https://www.instagram.com/p/DGtSzqHycwf/",
       },
       {
         src: helmetGame,
         alt: "Helmet Game poster featuring a raised fist on a light background.",
         isSquare: true,
+        href: "https://www.instagram.com/p/DCA-c6Zp3OY/",
       },
     ],
   },

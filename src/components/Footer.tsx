@@ -2,21 +2,21 @@ import { portfolio } from "../content/portfolio";
 
 export function Footer() {
   return (
-    <footer className="flex flex-col items-center gap-2 py-2">
+    <footer className="flex flex-col items-center gap-2 px-4 py-2">
       <p className="whitespace-pre text-center text-[10px] leading-4">
         {portfolio.footer.caption}
       </p>
       <ul
         aria-label="Album covers"
-        className="flex w-full items-start justify-center gap-2 [&:has(li:hover)_li:not(:hover)]:opacity-40"
+        className="flex w-full flex-wrap items-start justify-center gap-2 [&:has(li:hover)_li:not(:hover)]:opacity-40"
       >
         {portfolio.footer.albums.map((album) => {
           const cover = (
             <img
               src={album.src}
               alt={album.alt}
-              width={78}
-              height={78}
+              width={56}
+              height={56}
               loading="lazy"
               decoding="async"
               className="block size-14 object-cover"
