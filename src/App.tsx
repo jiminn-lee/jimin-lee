@@ -3,6 +3,7 @@ import { portfolio } from "./content/portfolio";
 import { Hero } from "./components/Hero";
 import { InformationSection } from "./components/InformationSection";
 import { InlineBold } from "./components/InlineBold";
+import { PortfolioLink } from "./components/PortfolioLink";
 import { DesignGallery } from "./components/DesignGallery";
 import { Footer } from "./components/Footer";
 
@@ -11,7 +12,7 @@ export function App() {
     <>
       <main>
         <Hero />
-        <div className="mx-auto flex w-full max-w-[362px] flex-col gap-24 px-4 pb-48 sm:max-w-[547px] sm:px-0 pt-0">
+        <div className="mx-auto flex w-full max-w-[362px] flex-col gap-32 px-4 pb-48 sm:max-w-[547px] sm:px-0 pt-0">
           <InformationSection id="about" {...portfolio.about}>
             <div className="space-y-7 sm:space-y-[31px]">
               {portfolio.about.paragraphs.map((paragraph, index) => (
@@ -25,6 +26,7 @@ export function App() {
             <ul className="space-y-7 sm:space-y-[31px]">
               {portfolio.experience.entries.map((entry) => (
                 <li key={entry.title}>
+                  <h4 className="text-muted text-sm">{entry.date}</h4>
                   <h3 className="font-bold">{entry.title}</h3>
                   <p>{entry.description}</p>
                 </li>
@@ -35,7 +37,13 @@ export function App() {
             <ul className="space-y-7 sm:space-y-[31px]">
               {portfolio.projects.entries.map((entry) => (
                 <li key={entry.title}>
-                  <h3 className="font-bold">{entry.title}</h3>
+                  <h3 className="font-bold">
+                    <PortfolioLink
+                      label={entry.title}
+                      href={entry.href}
+                      showArrow
+                    />
+                  </h3>
                   <p>{entry.description}</p>
                 </li>
               ))}

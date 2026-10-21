@@ -8,7 +8,7 @@ export function Footer() {
       </p>
       <ul
         aria-label="Album covers"
-        className="flex w-full flex-wrap items-start justify-center gap-2 [&:has(li:hover)_li:not(:hover)]:opacity-40"
+        className="flex w-full flex-wrap items-start justify-center gap-2 [&:has(li:hover)_li:not(:hover)]:opacity-75"
       >
         {portfolio.footer.albums.map((album) => {
           const cover = (
@@ -17,14 +17,14 @@ export function Footer() {
               alt={album.alt}
               width={56}
               height={56}
-              loading="lazy"
+              // loading="lazy"
               decoding="async"
               className="block size-14 object-cover"
             />
           );
 
           return (
-            <li key={album.src} className="shrink-0 transition-opacity">
+            <li key={album.src} className="image-grain shrink-0 transition-opacity">
               {album.href?.trim() ? (
                 <a
                   href={album.href}

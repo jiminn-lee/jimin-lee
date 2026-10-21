@@ -13,7 +13,7 @@ export function Hero() {
           <KoreanFlag />
         </div>
         <nav aria-label="Profile links" className="row-start-1">
-          <ul className="flex h-full items-end justify-between [&:has(a:hover)_a:not(:hover)]:text-muted">
+          <ul className="hero-links flex h-full items-end justify-between [&:has(a:hover)_a:not(:hover)]:text-muted">
             {portfolio.navigation.map((link, index) => (
               <li
                 key={link.label}
@@ -36,17 +36,20 @@ export function Hero() {
             />
           </div>
         </div>
-        <div className="hero-identity row-start-5 flex flex-col gap-2">
-          <div>
-            <p lang="ko" className="hero-korean-name font-korean text-[20px] leading-5">
-              {portfolio.koreanName}
-            </p>
+        <div className="hero-identity mt-2 row-start-5 flex flex-col gap-1">
+          <div className="flex items-end gap-2">
             <h1
               id="portfolio-name"
-              className="hero-name text-[48px] leading-12 tracking-[-1.2px]"
+              className="hero-name text-[48px] leading-12 tracking-tight"
             >
               {portfolio.name}
             </h1>
+            <p
+              lang="ko"
+              className="hero-korean-name font-korean text-[20px tracking-tight"
+            >
+              <span className="text-muted">·</span> {portfolio.koreanName}
+            </p>
           </div>
           <p className="italic">{portfolio.tagline}</p>
         </div>
