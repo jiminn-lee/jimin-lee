@@ -12,7 +12,7 @@ export function App() {
     <>
       <main>
         <Hero />
-        <div className="mx-auto flex w-full max-w-[362px] flex-col gap-32 px-4 pb-48 sm:max-w-[547px] sm:px-0 pt-0">
+        <div className="portfolio-information mx-auto flex w-full max-w-[362px] flex-col gap-32 px-4 pb-32 sm:max-w-[547px] sm:px-0">
           <InformationSection id="about" {...portfolio.about}>
             <div className="space-y-7 sm:space-y-[31px]">
               {portfolio.about.paragraphs.map((paragraph, index) => (

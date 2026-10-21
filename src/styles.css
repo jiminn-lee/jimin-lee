@@ -67,58 +67,50 @@
   }
 }
 
-/* Center the 626px links/portrait/name block independently of the flag.
-   Keep 32px above the 45px flag and at least a 32px gap on short windows. */
+/* Center the whole stack, including the flag. The small viewport keeps
+   mobile browser chrome hiding on scroll from moving the next section. */
 .hero {
   --hero-width: min(330px, calc(100vw - 32px));
-  --hero-flag-gap: clamp(32px, calc(50dvh - 390px), 64px);
-  position: relative;
-  height: 100dvh;
+  --hero-flag-gap: 32px;
+  --hero-content-gap: 20px;
+  height: 100svh;
 }
 
 .hero-composition {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hero-content-gap);
   width: var(--hero-width);
-  height: min(626px, calc(100dvh - 218px));
-  grid-template-rows: 37px 20px minmax(0, 1fr) 20px 109px;
+  max-height: 100%;
 }
 
 .hero-flag {
-  bottom: calc(100% + var(--hero-flag-gap));
+  align-self: center;
+  flex-shrink: 0;
+  margin-bottom: calc(var(--hero-flag-gap) - var(--hero-content-gap));
+}
+
+.hero-navigation {
+  height: 37px;
+}
+
+.hero-portrait {
+  /* Only the photo shrinks when the stack exceeds the available height. */
+  height: calc(var(--hero-width) * 4 / 3);
+  flex-shrink: 1;
 }
 
 @media (width < 40rem), (height <= 600px) {
   .hero {
-    /* Reserve 136px for links, name and gaps, plus 93px for the flag
-       and clearance: 16px top + 45px flag + 16px gap + 16px bottom. */
-    --hero-portrait-height: max(
-      0px,
-      min(440px, calc(var(--hero-width) * 4 / 3), calc(100dvh - 229px))
-    );
-    --hero-composition-height: calc(var(--hero-portrait-height) + 136px);
-    --hero-composition-top: max(
-      77px,
-      calc((100dvh - var(--hero-composition-height)) / 2)
-    );
-    /* Split the space above the links equally around the 45px flag. */
-    --hero-flag-gap: calc((var(--hero-composition-top) - 45px) / 2);
+    --hero-flag-gap: 16px;
+    --hero-content-gap: 12px;
     padding-block: 16px;
     font-size: 18px;
     line-height: 24px;
   }
 
-  .hero-composition {
-    position: absolute;
-    /* Keep the core centered unless its flag would breach the top clearance. */
-    top: var(--hero-composition-top);
-    left: 50%;
-    translate: -50% 0;
-    height: var(--hero-composition-height);
-    grid-template-rows: 24px 12px var(--hero-portrait-height) 12px 88px;
-  }
-
-  .hero-identity {
-    gap: 4px;
+  .hero-navigation {
+    height: 24px;
   }
 
   .hero-korean-name {
@@ -146,6 +138,11 @@
     width: auto;
     flex-shrink: 0;
   }
+}
+
+.portfolio-information {
+  /* Add breathing room on short screens without reacting to mobile chrome. */
+  padding-top: clamp(0px, calc(800px - 100svh), 64px);
 }
 
 /* Apply to an image's wrapper: images cannot display ::after overlays.
