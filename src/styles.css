@@ -1,161 +1,265 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: Michelangelus;
-  src: url("./assets/fonts/Michelangelus-Regular.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Michelangelus;
-  src: url("./assets/fonts/Michelangelus-Bold.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Michelangelus;
-  src: url("./assets/fonts/Michelangelus-Italic.ttf") format("truetype");
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Jeju Myeongjo";
-  src: url("./assets/fonts/JejuMyeongjoOTF.otf") format("opentype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
 @theme {
-  --color-ink: #514e4c;
-  --color-muted: #a3a2a2;
-  --font-serif: Michelangelus, "Times New Roman", serif;
-  --font-korean: "Jeju Myeongjo", serif;
+  --font-serif: "EB Garamond", Georgia, serif;
+  --color-page: #ffffff;
+  --color-ink: #4d4d4d;
+  --color-muted: #c3c3c3;
+  --color-accent: #eeeeee;
 }
 
-:root {
-  --image-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='330' height='440'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='1' seed='13' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.25 0 0 0 0'/%3E%3C/filter%3E%3Cpath fill='white' filter='url(%23grain)' d='M0 0h330v440H0z'/%3E%3C/svg%3E");
+:root { color-scheme: light; }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-page: #1c1c1c;
+  --color-ink: #eeeeee;
+  --color-muted: #636363;
+  --color-accent: #2a2a2a;
 }
 
 @layer base {
   body {
     margin: 0;
-    background: #fafafa;
+    background: var(--color-page);
     color: var(--color-ink);
+    transition: background-color 600ms ease-in-out, color 600ms ease-in-out;
     font-family: var(--font-serif);
     font-size: 20px;
-    line-height: 31px;
+    font-weight: 400;
     font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-
-  @media (width < 40rem) {
-    body {
-      font-size: 18px;
-      line-height: 28px;
-    }
-  }
-
-  ::selection {
-    background: #e9e2db;
-    color: var(--color-ink);
-  }
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
+  ::selection { background: var(--color-accent); }
 }
 
-/* Center the whole stack, including the flag. The small viewport keeps
-   mobile browser chrome hiding on scroll from moving the next section. */
-.hero {
-  --hero-width: min(330px, calc(100vw - 32px));
-  --hero-flag-gap: 32px;
-  --hero-content-gap: 20px;
-  height: 100svh;
+.portfolio-page {
+  --page-block-gutter: 100px;
+  min-height: 100svh;
+  padding: var(--page-block-gutter) clamp(20px, 12.5vw - 40px, 100px);
 }
 
-.hero-composition {
-  display: flex;
-  flex-direction: column;
-  gap: var(--hero-content-gap);
-  width: var(--hero-width);
-  max-height: 100%;
+.portfolio-content {
+  min-height: calc(100svh - 2 * var(--page-block-gutter));
+  gap: clamp(32px, 6.4vw, 64px);
 }
 
-.hero-flag {
-  align-self: center;
-  flex-shrink: 0;
-  margin-bottom: calc(var(--hero-flag-gap) - var(--hero-content-gap));
+.intro {
+  width: 100%;
+  max-width: 800px;
+  gap: clamp(18px, 4vw, 32px);
 }
-
-.hero-navigation {
-  height: 37px;
-}
-
-.hero-portrait {
-  /* Only the photo shrinks when the stack exceeds the available height. */
-  height: calc(var(--hero-width) * 4 / 3);
-  flex-shrink: 1;
-}
-
-@media (width < 40rem), (height <= 600px) {
-  .hero {
-    --hero-flag-gap: 16px;
-    --hero-content-gap: 12px;
-    padding-block: 16px;
-    font-size: 18px;
-    line-height: 24px;
-  }
-
-  .hero-navigation {
-    height: 24px;
-  }
-
-  .hero-korean-name {
-    font-size: 16px;
-    line-height: 20px;
-  }
-
-  .hero-name {
-    font-size: 40px;
-    line-height: 40px;
-  }
-}
-
-@media (width < 40rem) {
-  .hero {
-    /* Narrow the photo and links together, without crowding the link labels. */
-    --hero-width: min(calc(100vw - 32px), clamp(240px, 72vw, 280px));
-  }
-
-  .hero-links {
-    column-gap: 24px;
-  }
-
-  .hero-links > li {
-    width: auto;
-    flex-shrink: 0;
-  }
-}
-
-.portfolio-information {
-  /* Add breathing room on short screens without reacting to mobile chrome. */
-  padding-top: clamp(0px, calc(800px - 100svh), 64px);
-}
-
-/* Apply to an image's wrapper: images cannot display ::after overlays.
-   Reproduces Figma's white, 25%-opacity grain without modifying the image. */
-.image-grain {
+.intro nav { max-width: 100%; }
+.profile-links { gap: 8px clamp(16px, 4.8vw, 48px); }
+.flag {
+  --flag-scale: 1;
+  cursor: pointer;
+  padding: 0;
+  border: 0;
+  background: transparent;
   position: relative;
+  width: calc(42px * var(--flag-scale));
+  height: calc(32.828px * var(--flag-scale));
 }
-
-.image-grain::after {
-  content: "";
+.flag-artwork {
   position: absolute;
   inset: 0;
+  scale: var(--flag-scale);
+  transform-origin: top left;
   pointer-events: none;
-  background-image: var(--image-grain);
-  background-size: 330px 440px;
+}
+.flag-stripes { position: absolute; left: -0.7242px; top: -0.48255px; }
+.flag-center {
+  position: absolute;
+  left: 10.5587px;
+  top: 5.9689px;
+  transform: rotate(33.69deg);
+  transition: transform 600ms ease-in-out;
+}
+
+.bio {
+  width: 100%;
+  color: var(--color-ink);
+  font-size: clamp(22px, 5vw, 32px);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.bio em { font-weight: 600; }
+.bio, .project-detail h2, .text-muted {
+  transition: color 600ms ease-in-out;
+}
+.theme-image { transition: opacity 600ms ease-in-out; }
+.theme-image-light { opacity: 1; }
+.theme-image-dark { opacity: 0; }
+:root[data-theme="dark"] .theme-image-light { opacity: 0; }
+:root[data-theme="dark"] .theme-image-dark { opacity: 1; }
+.bio-introduction {
+  /* Inline padding joins the hover areas across lines without changing layout. */
+  padding-block: 0.15em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.bio-trigger { cursor: pointer; text-decoration-skip-ink: none; }
+.bio-trigger, .profile-link {
+  text-decoration-thickness: from-font;
+  text-underline-position: from-font;
+  text-decoration-color: var(--color-muted);
+  transition: background-color 180ms ease, text-decoration-color 180ms ease;
+}
+.bio-trigger[data-active="true"],
+.profile-link:hover, .profile-link:focus-visible {
+  text-decoration-color: currentColor;
+}
+.bio-introduction[data-active="true"] {
+  background-color: var(--color-accent);
+}
+.profile-link { line-height: 30px; }
+
+.bio-project { white-space: nowrap; }
+.bio-project-link {
+  display: inline-block;
+  position: relative;
+  padding-left: 4px;
+  vertical-align: 0.35em;
+  color: var(--color-accent);
+  transition: color 180ms ease;
+}
+.bio-project-link svg {
+  width: 10px;
+  height: 10px;
+}
+.bio-project[data-active="true"] .bio-project-link,
+.bio-project-link:focus-visible { color: inherit; }
+
+/* Reserve the largest panel so hover changes never move the bio or links. */
+.detail-slot {
+  display: grid;
+  align-items: end;
+  width: 100%;
+  max-width: 600px;
+  min-height: 307px;
+}
+.detail-slot > * {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 200ms ease, visibility 0s linear 200ms;
+}
+.detail-slot > [data-active="true"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+.masonry-gallery {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 1px);
+  grid-auto-rows: 1px;
+  grid-auto-flow: dense;
+  /* Reverse the packing direction so the first row sits on the bottom edge. */
+  transform: scaleY(-1);
+}
+.masonry-gallery li { padding: 0 8px 8px 0; }
+.masonry-gallery img {
+  display: block;
+  height: auto;
+  transform: scaleY(-1);
+  transition: scale 180ms ease;
+}
+@media (hover: hover) {
+  .masonry-gallery img:hover {
+    position: relative;
+    z-index: 1;
+    scale: var(--gallery-hover-scale);
+  }
+}
+.project-detail { overflow-wrap: anywhere; }
+.project-detail h2 {
+  color: var(--color-ink);
+  font-size: clamp(34px, 7vw, 48px);
+  line-height: 1.3125;
+  letter-spacing: -0.48px;
+}
+.project-role, .project-description { font-size: 20px; line-height: 26px; }
+.project-technologies { font-size: 16px; line-height: 21px; }
+
+/* Preserve the original edge crop as the SVG scales below ~995px. */
+.wordmark {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+.wordmark img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: min(775.778px, 78vw, 135svh);
+  height: auto;
+  transform: translate(1.647%, 3.931%);
+}
+
+@media (max-width: 900px), (max-height: 700px) {
+  .portfolio-page { --page-block-gutter: clamp(24px, 7svh, 64px); }
+  .portfolio-content:not(:has(.detail-slot > [data-active="true"])) { gap: 0; }
+  .detail-slot {
+    position: relative;
+    min-height: 0;
+  }
+  .detail-slot > * { scroll-margin-block: 20px; }
+  .detail-slot > [data-active="false"] {
+    position: absolute;
+    grid-area: auto;
+    inset: auto 0 0;
+  }
+  .project-role, .project-description { font-size: 18px; line-height: 1.4; }
+}
+
+@media (max-width: 640px) {
+  .flag { --flag-scale: 0.8; }
+}
+
+@media (hover: none) {
+  .flag::before {
+    content: "";
+    position: absolute;
+    inset: -9px;
+  }
+  .profile-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .bio-project-link { color: inherit; }
+  .bio-project-link::after {
+    content: "";
+    position: absolute;
+    inset: -7px -10px -7px 0;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.intro, .wordmark {
+  animation: fade-in 350ms ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro, .wordmark { animation: none; }
+  .masonry-gallery img { transition: none; }
+  body, .bio, .project-detail h2, .text-muted, .theme-image,
+  .flag-center, .detail-slot > *, .bio-trigger, .profile-link, .bio-project-link {
+    transition: none;
+  }
 }

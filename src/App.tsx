@@ -1,70 +1,78 @@
-import { Fragment } from "react";
-import { portfolio } from "./content/portfolio";
-import { Hero } from "./components/Hero";
-import { InformationSection } from "./components/InformationSection";
-import { InlineBold } from "./components/InlineBold";
+import { useEffect, useState } from "react";
+import { Bio } from "./components/Bio";
+import { CopyEmail } from "./components/CopyEmail";
+import { DetailPanel } from "./components/DetailPanel";
 import { PortfolioLink } from "./components/PortfolioLink";
-import { DesignGallery } from "./components/DesignGallery";
-import { Footer } from "./components/Footer";
+import { portfolio, type DetailId } from "./content/portfolio";
+
+const compactViewport = "(max-width: 900px), (max-height: 700px)";
 
 export function App() {
+  const [themeChanges, setThemeChanges] = useState(0);
+  const isDark = themeChanges % 2 === 1;
+  useEffect(() => {
+    document.documentElement.dataset.theme = isDark ? "dark" : "light";
+  }, [isDark]);
+  const [hoveredDetail, setHoveredDetail] = useState<DetailId | null>(null);
+  const [focusedDetail, setFocusedDetail] = useState<DetailId | null>(null);
+  const [selectedDetail, setSelectedDetail] = useState<DetailId | null>(null);
+  const activeDetail = selectedDetail ?? hoveredDetail ?? focusedDetail;
+
+  useEffect(() => {
+    if (!selectedDetail || !window.matchMedia(compactViewport).matches) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.getElementById(`detail-${selectedDetail}`)?.scrollIntoView({
+      block: "nearest",
+      behavior: reduceMotion ? "instant" : "smooth",
+    });
+  }, [selectedDetail]);
+
+  function toggleDetail(id: DetailId) {
+    setSelectedDetail((current) => current === id ? null : id);
+    setHoveredDetail(null);
+    setFocusedDetail(null);
+  }
   return (
-    <>
-      <main>
-        <Hero />
-        <div className="portfolio-information mx-auto flex w-full max-w-[362px] flex-col gap-32 px-4 pb-32 sm:max-w-[547px] sm:px-0">
-          <InformationSection id="about" {...portfolio.about}>
-            <div className="space-y-7 sm:space-y-[31px]">
-              {portfolio.about.paragraphs.map((paragraph, index) => (
-                <p key={index}>
-                  <InlineBold text={paragraph} />
-                </p>
+    <main
+      className="portfolio-page relative isolate"
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          setSelectedDetail(null);
+          setHoveredDetail(null);
+          setFocusedDetail(null);
+        }
+      }}
+    >
+      <h1 className="sr-only">{portfolio.name}</h1>
+      <div className="wordmark" aria-hidden="true">
+        <img src={portfolio.wordmark} alt="" className="theme-image theme-image-light block max-w-none" />
+        <img src={portfolio.darkWordmark} alt="" className="theme-image theme-image-dark block max-w-none" />
+      </div>
+      <div className="portfolio-content relative z-10 flex flex-col justify-between">
+        <header className="intro flex flex-col items-start">
+          <button type="button" className="flag shrink-0"
+            aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+            aria-pressed={isDark}
+            onClick={() => setThemeChanges((count) => count + 1)}>
+            <span className="flag-artwork" aria-hidden="true">
+              <img src={portfolio.flag.stripes} alt="" className="flag-stripes theme-image theme-image-light block max-w-none" />
+              <img src={portfolio.flag.darkStripes} alt="" className="flag-stripes theme-image theme-image-dark block max-w-none" />
+              <img src={portfolio.flag.center} alt="" className="flag-center block max-w-none" style={{ transform: `rotate(${33.69 + themeChanges * 360}deg)` }} />
+            </span>
+          </button>
+          <Bio activeDetail={activeDetail} selectedDetail={selectedDetail} onToggle={toggleDetail} onHover={setHoveredDetail} onFocus={setFocusedDetail} />
+          <nav aria-label="Profile links">
+            <ul className="profile-links flex flex-wrap">
+              {portfolio.navigation.map((link) => (
+                <li key={link.label}><PortfolioLink {...link} /></li>
               ))}
-            </div>
-          </InformationSection>
-          <InformationSection id="experience" {...portfolio.experience}>
-            <ul className="space-y-7 sm:space-y-[31px]">
-              {portfolio.experience.entries.map((entry) => (
-                <li key={entry.title}>
-                  <h4 className="text-muted text-sm">{entry.date}</h4>
-                  <h3 className="font-bold">{entry.title}</h3>
-                  <p>{entry.description}</p>
-                </li>
-              ))}
+              <li><CopyEmail address={portfolio.email} /></li>
             </ul>
-          </InformationSection>
-          <InformationSection id="projects" {...portfolio.projects}>
-            <ul className="space-y-7 sm:space-y-[31px]">
-              {portfolio.projects.entries.map((entry) => (
-                <li key={entry.title}>
-                  <h3 className="font-bold">
-                    <PortfolioLink
-                      label={entry.title}
-                      href={entry.href}
-                      showArrow
-                    />
-                  </h3>
-                  <p>{entry.description}</p>
-                </li>
-              ))}
-            </ul>
-          </InformationSection>
-          <InformationSection id="design" {...portfolio.design}>
-            <DesignGallery />
-          </InformationSection>
-          <InformationSection id="skills" {...portfolio.skills}>
-            <p className="[&:has(.skill-label:hover)_.skill-label:not(:hover)]:text-muted">
-              {portfolio.skills.items.map((skill, index) => (
-                <Fragment key={skill}>
-                  {index > 0 && <span className="text-muted"> · </span>}
-                  <span className="skill-label transition-colors">{skill}</span>
-                </Fragment>
-              ))}
-            </p>
-          </InformationSection>
-        </div>
-      </main>
-      <Footer />
-    </>
+          </nav>
+        </header>
+        <DetailPanel activeDetail={activeDetail} />
+      </div>
+    </main>
   );
 }
