@@ -1,16 +1,16 @@
-import album0 from "../assets/images/made.png";
-import album1 from "../assets/images/whole-lotta-red.png";
-import album2 from "../assets/images/the-life-of-pablo.png";
-import album3 from "../assets/images/korean-dream.png";
-import album4 from "../assets/images/because-i-love-you.png";
-import album5 from "../assets/images/ss-pop-3.png";
-import darkFlagStripes from "../assets/wireframe-4/korean-flag-stripes-dark.svg";
-import darkWordmark from "../assets/wireframe-4/jimin-lee-dark.svg";
-import portrait from "../assets/images/portrait.webp";
-import flagStripes from "../assets/wireframe-4/korean-flag-stripes.svg";
-import flagCenter from "../assets/wireframe-4/korean-flag-center.svg";
-import wordmark from "../assets/wireframe-4/jimin-lee.svg";
-import resume from "../assets/Jimin_Lee_Resume.pdf";
+import album0 from "../assets/gallery/albums/made.png";
+import album1 from "../assets/gallery/albums/whole-lotta-red.png";
+import album2 from "../assets/gallery/albums/the-life-of-pablo.png";
+import album3 from "../assets/gallery/albums/korean-dream.png";
+import album4 from "../assets/gallery/albums/because-i-love-you.png";
+import album5 from "../assets/gallery/albums/ss-pop-3.png";
+import darkFlagStripes from "../assets/branding/korean-flag-stripes-dark.svg";
+import darkWordmark from "../assets/branding/jimin-lee-dark.svg";
+import portrait from "../assets/gallery/portrait.webp";
+import flagStripes from "../assets/branding/korean-flag-stripes.svg";
+import flagCenter from "../assets/branding/korean-flag-center.svg";
+import wordmark from "../assets/branding/jimin-lee.svg";
+import resume from "../assets/documents/Jimin_Lee_Resume.pdf";
 
 export type ProjectId =
   "hack4impact" | "artify4kids" | "yearbookpro" | "tino-lockers";
@@ -39,10 +39,6 @@ export const portfolio = {
   },
   darkWordmark,
   wordmark,
-  portrait: {
-    src: portrait,
-    alt: "Jimin Lee in a graduation cap and gown, seated on a sunny football field.",
-  },
   // Widths are in pixels; image heights follow their natural proportions.
   gallery: [
     {
