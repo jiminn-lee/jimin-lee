@@ -4,7 +4,7 @@ import { CopyEmail } from "./components/CopyEmail";
 import { DetailPanel } from "./components/DetailPanel";
 import { PortfolioLink } from "./components/PortfolioLink";
 import { portfolio, type DetailId } from "./content/portfolio";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const compactViewport = "(max-width: 900px), (max-height: 700px)";
 
