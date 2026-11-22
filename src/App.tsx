@@ -4,6 +4,7 @@ import { CopyEmail } from "./components/CopyEmail";
 import { DetailPanel } from "./components/DetailPanel";
 import { PortfolioLink } from "./components/PortfolioLink";
 import { portfolio, type DetailId } from "./content/portfolio";
+import { Analytics } from "@vercel/analytics/next";
 
 const compactViewport = "(max-width: 900px), (max-height: 700px)";
 
@@ -73,6 +74,7 @@ export function App() {
         </header>
         <DetailPanel activeDetail={activeDetail} />
       </div>
+       <Analytics />
     </main>
   );
 }
